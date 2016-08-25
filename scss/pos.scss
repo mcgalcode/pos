@@ -72,7 +72,7 @@ GRIDS
     }
   }
 
-  .row.spacing-large > .col {
+  .spacing-large > .col {
     padding: 0 $spacing-large 0 $spacing-large;
   }
 
@@ -84,7 +84,7 @@ GRIDS
     padding: 0 $spacing-small 0 $spacing-small;
   }
 
-  .row.spacing-large .col:first-child {
+  .spacing-large .col:first-child {
     padding: 0 ($spacing-large) 0 0;
 
     .col-content {
@@ -92,7 +92,7 @@ GRIDS
     }
   }
 
-  .row.spacing-large .col:last-child {
+  .spacing-large .col:last-child {
     padding: 0 0 0 ($spacing-large);
 
     .col-content {
@@ -100,7 +100,7 @@ GRIDS
     }
   }
 
-  .row.spacing-medium .col:first-child {
+  .spacing-medium .col:first-child {
     padding: 0 ($spacing-medium) 0 0;
 
     .col-content {
@@ -108,7 +108,7 @@ GRIDS
     }
   }
 
-  .row.spacing-small .col:first-child {
+  .spacing-small .col:first-child {
     padding: 0 ($spacing-small) 0 0;
 
     .col-content {
@@ -126,6 +126,11 @@ GRIDS
       display: inline-block;
       vertical-align: top;
       background-clip: content-box;
+
+      .col-content {
+        display: inline-block;
+        width: 100%;
+      }
     }
 
     & > .col-1 {
@@ -192,34 +197,122 @@ GRIDS
 
 }
 
-.col-content {
+@media (max-width: $break-medium) and (min-width: $break-small) {
 
 
+.container {
+
+
+
+
+    .row.spacing-large {
+
+      /** middle sized medium spacing **/
+      $middle-lg: $spacing-large * 0.8;
+      /*********/
+
+
+      .col:nth-child(odd) {
+        padding: 0 ($middle-lg) 0 0;
+
+        .col-content {
+          margin: 0;
+        }
+      }
+
+      .col:nth-child(even) {
+        padding: 0 0 0 ($middle-lg);
+
+        .col-content {
+          margin: 0;
+        }
+      }
+    }
+
+    .row.spacing-medium {
+
+      /** middle sized medium spacing **/
+      $middle-med: $spacing-medium * 0.8;
+      /*********/
+
+      .col:nth-child(even) {
+        padding: 0 0 0 ($middle-med);
+
+        .col-content {
+          margin-right: 0;
+        }
+      }
+
+      .col:nth-child(odd) {
+        padding: 0 ($middle-med) 0 0;
+
+        .col-content {
+          margin: 0;
+        }
+      }
+    }
+
+    .row.spacing-medium {
+
+      /** middle sized medium spacing **/
+      $middle-sm: $spacing-small * 0.8;
+      /*********/
+
+      .col:nth-child(even) {
+        padding: 0 0 0 ($middle-sm);
+
+        .col-content {
+          margin-right: 0;
+        }
+      }
+
+      .col:nth-child(odd) {
+        padding: 0 ($middle-sm) 0 0;
+
+        .col-content {
+          margin: 0;
+        }
+      }
+    }
+
+    .row {
+
+      & > .col:nth-child(odd):last-child {
+        width: 100%;
+        padding: 0;
+      }
+
+      & > .col {
+        width: 50%;
+
+        .col-content {
+          margin: 0;
+        }
+      }
+    }
+  }
 }
 
-@media (max-width: 760px) {
+@media (max-width: $break-small) {
 
-  html {
-      body {
-        .container {
+  body {
+    .container {
+      .row.spacing-large, .row.spacing-medium, .row.spacing-small {
+        & > .col {
+          display: block;
+          width: 100%;
+          padding: 0;
 
-        .row {
-          & > .col {
-            display: block;
-            width: 100%;
-            padding: 0 !important;
-
-            .col-content {
-              margin: 0 !important;
-            }
+          .col-content {
+            margin: 0;
           }
         }
       }
     }
   }
-
-
 }
+
+
 
 /*******************************
 FULL PAGE CONTENT AREAS
