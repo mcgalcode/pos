@@ -20,11 +20,16 @@ SIZES
 $top-banner-height: 40px;
 $centered-container-width: 90%;
 
-/*** PADDINGS ****/
 
-$spacing-large: 30px;
-$spacing-medium: 12px;
-$spacing-small: 10px;
+
+$col-spacing-large: 3%;
+$col-spacing-medium: 2%;
+$col-spacing-small: 1%;
+
+$row-spacing: 40px;
+
+$medium-row-multipler: 0.8;
+$small-row-multipler: 0.6;
 
 
 $padding-large: 15px;

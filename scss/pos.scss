@@ -15,9 +15,6 @@ GENERAL
   display: flex;
 }
 
-
-
-
 /********************************
 Top Navigation Bar
 ********************************/
@@ -40,13 +37,6 @@ Top Navigation Bar
   height: $top-banner-height;
 }
 
-
-@media (min-width: 600px) {
-
-
-
-}
-
 /******************************
 GRIDS
 ******************************/
@@ -58,7 +48,11 @@ GRIDS
 
 .container {
 
-  .col {
+
+  .row {
+    *[class*="col"] {
+      margin-bottom: $row-spacing;
+    }
 
     .padding-large {
       padding: $padding-large;
@@ -73,169 +67,134 @@ GRIDS
     }
   }
 
-  .spacing-large > .col {
-    padding: 0 $spacing-large 0 $spacing-large;
-  }
+  @for $i from 1 to 13 {
 
-  .row.spacing-medium > .col {
-    padding: 0 $spacing-medium 0 $spacing-medium;
-  }
+    @if $i == 12 {
 
-  .row.spacing-small > .col {
-    padding: 0 $spacing-small 0 $spacing-small;
-  }
+      .col-12 {
+        @extend .col;
+        width: 100%;
+      }
 
-  .spacing-large .col:first-child {
-    padding: 0 ($spacing-large) 0 0;
+    } @else {
 
-    .col-content {
-      margin-right: $spacing-large;
+      & .col-#{$i} {
+        @extend .col;
+      }
+
+      // $i is how many children there are in this row
+      // $k is how wide this particular child is
+
+      @for $k from 1 to 12 {
+        .col-spacing-large > .col-#{$k}:first-child:nth-last-child(#{$i}),
+        .col-spacing-large > *[class*='col']:first-child:nth-last-child(#{$i}) ~ .col-#{$k} {
+          width: (($k * (100% - (($i - 1) * $col-spacing-large))) / 12 );
+        }
+
+        .col-spacing-medium > .col-#{$k}:first-child:nth-last-child(#{$i}),
+        .col-spacing-medium > *[class*='col']:first-child:nth-last-child(#{$i}) ~ .col-#{$k} {
+          width: (($k * (100% - (($i - 1) * $col-spacing-medium))) / 12 );
+        }
+
+        .col-spacing-small > .col-#{$k}:first-child:nth-last-child(#{$i}),
+        .col-spacing-small > *[class*='col']:first-child:nth-last-child(#{$i}) ~ .col-#{$k} {
+          width: (($k * (100% - (($i - 1) * $col-spacing-small))) / 12 );
+        }
+      }
+
+      .col-spacing-large .col:not(:last-child) {
+        margin-right: $col-spacing-large;
+      }
+
+      .col-spacing-medium .col:not(:last-child) {
+        margin-right: $col-spacing-medium;
+      }
+
+      .col-spacing-small .col:not(:last-child) {
+        margin-right: $col-spacing-small;
+      }
     }
   }
-
-  .spacing-large .col:last-child {
-    padding: 0 0 0 ($spacing-large);
-
-    .col-content {
-      margin-left: $spacing-large;
-    }
-  }
-
-  .spacing-medium .col:first-child {
-    padding: 0 ($spacing-medium) 0 0;
-
-    .col-content {
-      margin-right: $spacing-medium;
-    }
-  }
-
-  .spacing-small .col:first-child {
-    padding: 0 ($spacing-small) 0 0;
-
-    .col-content {
-      margin-right: $spacing-small;
-    }
-  }
-
 
   .row {
     font-size: 0;
 
-    & > .col {
+    & > *[class*='col'] {
       font-size: $default-content-font-size;
-      height: 100%;
       display: inline-block;
       vertical-align: top;
-      background-clip: content-box;
-
-      .col-content {
-        display: inline-block;
-        width: 100%;
-      }
     }
-
-
-    @for $i from 1 to 12 {
-      & .col-#{$i} {
-        @extend .col;
-        width: $i * 100% / 12;
-      }
-    }
-
   }
 
 }
 
 @media (max-width: $break-medium) and (min-width: $break-small) {
 
+  html {
+  .container {
+      .row.col-spacing-large {
 
-.container {
+        /** middle sized medium spacing **/
+        $middle-lg: $col-spacing-large * 0.8;
+        /*********/
 
+        *[class*='col'] {
+          // using important to over ride ultraspecific procedurally generated pseudo selectors
+          width: (50% - ($middle-lg / 2)) !important;
+        }
 
+        *[class*='col']:nth-child(odd) {
+          margin-right: $middle-lg;
+        }
 
+      }
 
-    .row.spacing-large {
+      .row.col-spacing-medium {
 
-      /** middle sized medium spacing **/
-      $middle-lg: $spacing-large * 0.8;
-      /*********/
+        /** middle sized medium spacing **/
+        $middle-med: $col-spacing-medium * 0.8;
+        /*********/
 
+        *[class*='col'] {
+          // using important to over ride ultraspecific procedurally generated pseudo selectors
+          width: (50% - ($middle-med / 2)) !important;
+        }
 
-      .col:nth-child(odd) {
-        padding: 0 ($middle-lg) 0 0;
-
-        .col-content {
-          margin: 0;
+        *[class*='col']:nth-child(odd) {
+          margin-right: $middle-med;
         }
       }
 
-      .col:nth-child(even) {
-        padding: 0 0 0 ($middle-lg);
+      .row.col-spacing-small {
 
-        .col-content {
-          margin: 0;
+        /** middle sized medium spacing **/
+        $middle-sm: $col-spacing-small * 0.8;
+        /*********/
+
+        *[class*='col'] {
+          // using important to over ride ultraspecific procedurally generated pseudo selectors
+          width: (50% - ($middle-sm / 2)) !important;
+        }
+
+        *[class*='col']:nth-child(odd) {
+          margin-right: $middle-sm;
         }
       }
-    }
 
-    .row.spacing-medium {
+      .row {
 
-      /** middle sized medium spacing **/
-      $middle-med: $spacing-medium * 0.8;
-      /*********/
-
-      .col:nth-child(even) {
-        padding: 0 0 0 ($middle-med);
-
-        .col-content {
+        *[class*='col']:nth-child(even) {
           margin-right: 0;
         }
-      }
 
-      .col:nth-child(odd) {
-        padding: 0 ($middle-med) 0 0;
-
-        .col-content {
+        *[class*='col']:nth-child(odd):last-child {
+          // using important to over ride ultraspecific procedurally generated pseudo selectors
+          width: 100% !important;
           margin: 0;
         }
-      }
-    }
 
-    .row.spacing-medium {
-
-      /** middle sized medium spacing **/
-      $middle-sm: $spacing-small * 0.8;
-      /*********/
-
-      .col:nth-child(even) {
-        padding: 0 0 0 ($middle-sm);
-
-        .col-content {
-          margin-right: 0;
-        }
-      }
-
-      .col:nth-child(odd) {
-        padding: 0 ($middle-sm) 0 0;
-
-        .col-content {
-          margin: 0;
-        }
-      }
-    }
-
-    .row {
-
-      & > .col:nth-child(odd):last-child {
-        width: 100%;
-        padding: 0;
-      }
-
-      & > .col {
-        width: 50%;
-
-        .col-content {
-          margin: 0;
+        *[class*='col'] {
+          margin-bottom: $row-spacing * $medium-row-multipler;
         }
       }
     }
@@ -244,21 +203,18 @@ GRIDS
 
 @media (max-width: $break-small) {
 
-  body {
-    .container {
-      .row.spacing-large, .row.spacing-medium, .row.spacing-small {
-        & > .col {
-          display: block;
-          width: 100%;
-          padding: 0;
-
-          .col-content {
-            margin: 0;
-          }
-        }
+  .container {
+    .col-spacing-large, .row.col-spacing-medium, .row.col-spacing-small {
+      & > *[class*='col'] {
+        display: block;
+        // NOTE: use !important here since prior widths are defined by ultra-specific pseudo selectors
+        width: 100% !important;
+        margin: 0;
+        margin-bottom: $row-spacing * $small-row-multipler;
       }
     }
   }
+
 }
 
 
